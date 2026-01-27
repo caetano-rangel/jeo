@@ -11,7 +11,7 @@ export default function Cards() {
     { image: "/portraits/ansuba.jpeg", name: "Ansuba" },
     { image: "/portraits/remax.jpg", name: "RE/MAX" },
     { image: "/portraits/maria.jpg", name: "Maria Bahia" },
-    { image: "/portraits/bitcoin.jpg", name: "Web3 Project" },
+    { image: "/portraits/remax.jpg", name: "Residencial Pitinga" },
   ];
 
   return (
