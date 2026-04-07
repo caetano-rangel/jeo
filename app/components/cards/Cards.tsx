@@ -11,20 +11,33 @@ export default function Cards() {
     { image: "/portraits/ansuba.jpeg", name: "Ansuba" },
     { image: "/portraits/remax.jpg", name: "RE/MAX" },
     { image: "/portraits/maria.jpg", name: "Maria Bahia" },
-    { image: "/portraits/remax.jpg", name: "Residencial Pitinga" },
+    { image: "/portraits/pitinga.PNG", name: "Residencial Pitinga" },
   ];
 
   return (
     <section className="bg-[#f6f1e9] px-6 py-24">
       {/* TÍTULO */}
-      <div className="mb-14 text-center">
-        <span className="mb-3 block text-xs tracking-[0.3em] uppercase text-gray-500">
-          Portfólio
-        </span>
+      <div className="mb-16 text-center">
+        <div className="mb-4 flex items-center justify-center gap-2 text-[10px] font-medium tracking-[0.3em] uppercase text-[#c9a86a]">
+          <span>✦</span>
+          <span>CREATIVE WORK</span>
+          <span>✦</span>
+        </div>
 
-        <h2 className="font-serif text-3xl text-gray-900 md:text-4xl">
-          Clientes e Empresas que Já Trabalhei
+        <h2 className="mb-4 font-serif text-4xl text-[#1a1a1a] md:text-5xl lg:text-6xl ">
+          Portfólio
         </h2>
+
+        <p className="mx-auto max-w-lg text-sm tracking-wide text-gray-500 md:text-base">
+          Clientes e empresas que já confiam no meu trabalho estratégico.
+        </p>
+        
+        {/* Linha decorativa suave opcional (como na foto) */}
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <div className="h-px w-12 bg-gray-300" />
+          <div className="h-1 w-1 rounded-full bg-gray-400" />
+          <div className="h-px w-12 bg-gray-300" />
+        </div>
       </div>
 
       {/* CARDS */}
