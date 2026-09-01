@@ -12,10 +12,10 @@ export default function Home() {
   return (
     <main className="bg-white overflow-x-hidden">
       {/* HERO */}
-      <section className="relative h-dvh w-full overflow-hidden">
-        {/* Background */}
+      <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+        {/* Background Fixado (Resolve o tilt no mobile) */}
         <div
-          className="absolute inset-0 bg-no-repeat bg-cover bg-[left_center] md:bg-center"
+          className="absolute inset-0 bg-no-repeat bg-cover bg-[left_center] md:bg-center bg-fixed"
           style={{ backgroundImage: "url('/hero.jpg')" }}
         />
 
@@ -29,13 +29,13 @@ export default function Home() {
               Fotografia & Vídeo
             </span>
 
-            <h1 className="mb-6 font-serif text-4xl leading-tight text-white sm:text-5xl md:text-7xl">
+            <h1 className="mb-6 font-serif text-4xl leading-tight text-black sm:text-5xl md:text-7xl">
               Transformando
               <br />
               Momentos em Arte
             </h1>
 
-            <p className="mx-auto mb-8 max-w-md text-sm leading-relaxed text-gray-200">
+            <p className="mx-auto mb-8 max-w-md text-sm leading-relaxed text-black-200">
               Especializado em social media, marketing imobiliário, produções
               audiovisuais e filmes de casamento.
             </p>
@@ -44,14 +44,14 @@ export default function Home() {
               href="https://wa.me/5591980486792?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded-full border border-white/80 px-8 py-3 text-[11px] tracking-widest text-white transition-all duration-300 hover:bg-gold hover:border-gold hover:text-ink"
+              className="inline-block rounded-full border border-black/80 px-8 py-3 text-[11px] tracking-widest text-black transition-all duration-300 hover:bg-gold hover:border-gold hover:text-ink"
             >
               ENTRE EM CONTATO
             </a>
 
             {/* ÍCONE DE SCROLL */}
             <div className="mt-8 flex justify-center">
-              <Mouse className="h-6 w-6 text-white/70 animate-bounce" aria-hidden="true" />
+              <Mouse className="h-6 w-6 text-black/70 animate-bounce" aria-hidden="true" />
             </div>
           </div>
         </div>

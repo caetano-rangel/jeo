@@ -106,10 +106,9 @@ export default function CardsClient({
                   src={imageUrl}
                   alt={card.name}
                   fill
-                  className="object-cover transition-transform duration-700 ease-out"
-                  style={{
-                    transform: isHovered ? "scale(1.05)" : "scale(1)",
-                  }}
+                  className={`object-cover transition-all duration-700 ease-out ${
+                    isHovered ? "grayscale-0 scale-105" : "grayscale scale-100"
+                  }`}
                 />
               )}
 
@@ -159,7 +158,7 @@ export default function CardsClient({
               ✕
             </button>
 
-            {/* Imagem em destaque dentro do modal */}
+            {/* Imagem em destaque dentro do modal (em cores normais) */}
             {selectedCard.image && (
               <div className="relative mb-6 h-52 w-full overflow-hidden rounded-xl">
                 <Image

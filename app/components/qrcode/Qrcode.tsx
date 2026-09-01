@@ -7,7 +7,7 @@ export default function Qrcode() {
   const [copied, setCopied] = useState(false);
 
   // Altere para a URL real do seu site
-  const siteUrl = "https://seusite.com.br";
+  const siteUrl = "https://https://jeo-gules.vercel.app/";
 
   // Caminho da sua imagem salva na pasta /public
   const qrCodeImagePath = "/qrcode.png";
