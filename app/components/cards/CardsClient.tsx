@@ -25,6 +25,21 @@ export default function CardsClient({
 }: CardsClientProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedCard, setSelectedCard] = useState<CardItem | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  // Alterna o card expandido automaticamente a cada 3s APENAS no mobile
+  useEffect(() => {
+    if (!cards || cards.length === 0 || selectedCard) return;
+
+    const timer = setInterval(() => {
+      // Verifica se a tela é mobile (largura menor que 768px)
+      if (window.innerWidth < 768) {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % cards.length);
+      }
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, [cards, selectedCard]);
 
   // Trava o scroll do fundo quando o modal estiver aberto
   useEffect(() => {
@@ -71,13 +86,15 @@ export default function CardsClient({
         </div>
       </div>
 
-      {/* CARROSSEL EXPANSÍVEL (ACCORDION HOVER) */}
+      {/* CARROSSEL EXPANSÍVEL (ACCORDION HOVER NO DESKTOP / AUTO-CYCLE NO MOBILE) */}
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 md:flex-row md:gap-3 h-[500px]">
         {cards.map((card, idx) => {
           const imageUrl =
             card.image?.asset?.url || (card.image ? urlFor(card.image).url() : "");
 
-          const isHovered = hoveredIndex === idx;
+          // No desktop considera o hover; no mobile considera o index automático ativo
+          const isExpanded =
+            hoveredIndex !== null ? hoveredIndex === idx : activeIndex === idx;
 
           return (
             <div
@@ -98,7 +115,7 @@ export default function CardsClient({
               }}
               className="relative cursor-pointer overflow-hidden rounded-2xl transition-all duration-500 ease-in-out"
               style={{
-                flex: isHovered ? 3.5 : 1,
+                flex: isExpanded ? 3.5 : 1,
               }}
             >
               {imageUrl && (
@@ -107,7 +124,7 @@ export default function CardsClient({
                   alt={card.name}
                   fill
                   className={`object-cover transition-all duration-700 ease-out ${
-                    isHovered ? "grayscale-0 scale-105" : "grayscale scale-100"
+                    isExpanded ? "grayscale-0 scale-105" : "grayscale scale-100"
                   }`}
                 />
               )}
@@ -115,7 +132,7 @@ export default function CardsClient({
               {/* Overlay Escuro para Contraste */}
               <div
                 className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300"
-                style={{ opacity: isHovered ? 0.85 : 0.6 }}
+                style={{ opacity: isExpanded ? 0.85 : 0.6 }}
               />
 
               {/* Informações no Card */}
@@ -125,7 +142,7 @@ export default function CardsClient({
                 </p>
                 <p
                   className={`mt-1 text-[10px] uppercase tracking-widest transition-all duration-300 ${
-                    isHovered
+                    isExpanded
                       ? "opacity-100 translate-y-0 text-gold"
                       : "opacity-0 translate-y-2 text-white/70"
                   }`}
@@ -158,7 +175,7 @@ export default function CardsClient({
               ✕
             </button>
 
-            {/* Imagem em destaque dentro do modal (em cores normais) */}
+            {/* Imagem em destaque dentro do modal */}
             {selectedCard.image && (
               <div className="relative mb-6 h-52 w-full overflow-hidden rounded-xl">
                 <Image

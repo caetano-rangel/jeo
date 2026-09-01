@@ -25,7 +25,7 @@ const siteUrl = "https://seusite.com.br";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Jeovanna Isabel | Fotografia & Vídeo",
+    default: "Jeovanna Isabel | Portfolio",
     template: "%s | Jeovanna Isabel",
   },
   description:
