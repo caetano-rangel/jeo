@@ -1,76 +1,116 @@
-export default function Sobre() {
+import Image from 'next/image'
+import { PortableText } from '@portabletext/react'
+import { client } from '@/sanity/lib/client'
+import { urlFor } from '@/sanity/lib/image'
+
+interface Estatistica {
+  numero: string
+  legenda: string
+}
+
+interface SobreData {
+  tag?: string
+  titulo: string
+  bio?: any
+  estatisticas?: Estatistica[]
+  foto?: any
+}
+
+async function getSobreData(): Promise<SobreData | null> {
+  const query = `*[_type == "sobre"][0]{
+    tag,
+    titulo,
+    bio,
+    estatisticas,
+    foto
+  }`
+
+  try {
+    return await client.fetch(query, {}, { next: { revalidate: 10 } })
+  } catch (error) {
+    console.error('Erro ao carregar dados do Sanity:', error)
+    return null
+  }
+}
+
+export default async function Sobre() {
+  const sobreData = await getSobreData()
+
+  if (!sobreData) {
+    return null
+  }
+
   return (
-    <section className="bg-[#f6f1e9] px-6 py-24">
+    <section className="bg-cream px-6 py-24">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 md:grid-cols-2 md:items-center">
         
         <div>
-          <span className="mb-4 block text-xs tracking-[0.3em] uppercase text-gray-500">
-            Minha História
-          </span>
+          {/* Tag Superior */}
+          {sobreData.tag && (
+            <span className="mb-4 block text-xs tracking-[0.3em] uppercase text-gold-dark">
+              {sobreData.tag}
+            </span>
+          )}
 
-          <h2 className="mb-8 font-serif text-4xl text-gray-900">
-            Jeovanna Isabel
-          </h2>
+          {/* Título Principal */}
+          {sobreData.titulo && (
+            <h2 className="mb-8 font-serif text-4xl text-gray-900 tracking-tight">
+              {sobreData.titulo}
+            </h2>
+          )}
 
-          <div className="space-y-6 text-sm text-gray-600 md:text-base">
-            <p>
-              Sou apaixonada por contar histórias através de imagens. Meu trabalho nasce
-              do olhar atento aos detalhes, da sensibilidade em captar emoções reais e da
-              busca constante por uma estética que seja, ao mesmo tempo, autêntica e
-              sofisticada.
-            </p>
+          {/* Biografia / Descrição */}
+          {sobreData.bio && (
+            <div className="space-y-6 text-sm text-gray-600 md:text-base">
+              <PortableText value={sobreData.bio} />
+            </div>
+          )}
 
-            <p>
-              Mais do que produzir fotos ou vídeos, meu propósito é criar narrativas
-              visuais que transmitam essência, gerem valor e permaneçam relevantes com o
-              passar do tempo — seja no universo digital, corporativo ou pessoal.
-            </p>
-          </div>
-
+          {/* Divisor */}
           <div className="my-10 h-px w-full bg-gray-300/60" />
 
-          <div className="grid grid-cols-3 gap-6 text-center">
-            <div>
-              <p className="font-serif text-3xl text-[#b08a4f]">500+</p>
-              <span className="text-xs tracking-widest text-gray-500">
-                CASAMENTOS
-              </span>
+          {/* Grade de Estatísticas */}
+          {sobreData.estatisticas && sobreData.estatisticas.length > 0 && (
+            <div className="grid grid-cols-3 gap-6 text-center">
+              {sobreData.estatisticas.map((item, index) => (
+                <div key={index}>
+                  <p className="font-serif text-3xl text-gold-dark">{item.numero}</p>
+                  <span className="text-xs tracking-widest text-gray-500 uppercase">
+                    {item.legenda}
+                  </span>
+                </div>
+              ))}
             </div>
-            <div>
-              <p className="font-serif text-3xl text-[#b08a4f]">12</p>
-              <span className="text-xs tracking-widest text-gray-500">
-                ANOS DE EXPERIÊNCIA
-              </span>
-            </div>
-            <div>
-              <p className="font-serif text-3xl text-[#b08a4f]">50+</p>
-              <span className="text-xs tracking-widest text-gray-500">
-                MARCAS ATENDIDAS
-              </span>
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* IMAGEM */}
-        <div className="relative flex w-full items-center justify-center">
-          <div
-            className="
-              h-[280px] w-[280px]
-              md:h-[420px] md:w-[420px]
-              overflow-hidden
-              bg-black
-              animate-[blob_5s_ease-in-out_infinite]
-            "
-          >
-            <img
-              src="/portraits/perfil.PNG"
-              alt="Jeovanna Isabel"
-              className="h-full w-full object-cover"
-            />
+        {/* Imagem com o efeito Blob original */}
+        {sobreData.foto && (
+          <div className="relative flex w-full items-center justify-center">
+            <div
+              className="
+                h-[280px] w-[280px]
+                md:h-[420px] md:w-[420px]
+                overflow-hidden
+                bg-black
+                ring-1 ring-gold/30
+                shadow-xl shadow-black/10
+                animate-[blob_5s_ease-in-out_infinite]
+                relative
+              "
+            >
+              <Image
+                src={urlFor(sobreData.foto).url()}
+                alt={sobreData.titulo || 'Foto de perfil'}
+                fill
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
     </section>
-  );
+  )
 }

@@ -6,6 +6,7 @@ import Videos from "./components/carousel/Videos";
 import Redes from "./components/redes/Redes";
 import Feedback from "./components/feedback/Feedback";
 import Footer from "./components/footer/Footer";
+import Qrcode from "./components/qrcode/Qrcode";
 
 export default function Home() {
   return (
@@ -19,16 +20,16 @@ export default function Home() {
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/55" />
 
         {/* Content */}
         <div className="relative z-10 flex h-full items-center justify-center px-6">
-          <div className="max-w-xl text-center">
-            <span className="mb-4 block text-[10px] tracking-[0.35em] uppercase text-gray-200">
+          <div className="max-w-xl text-center animate-fade-in-up">
+            <span className="mb-4 block text-[10px] tracking-[0.35em] uppercase text-gold">
               Fotografia & Vídeo
             </span>
 
-            <h1 className="mb-6 font-serif text-4xl leading-tight text-gray-200 sm:text-5xl md:text-7xl">
+            <h1 className="mb-6 font-serif text-4xl leading-tight text-white sm:text-5xl md:text-7xl">
               Transformando
               <br />
               Momentos em Arte
@@ -40,16 +41,17 @@ export default function Home() {
             </p>
 
             <a
-              href="https://wa.me/5591980486792?text=Olá!%20Gostaria%20de%20fazer%20um%20orçamento."
+              href="https://wa.me/5591980486792?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento."
               target="_blank"
-              className="inline-block border border-white px-8 py-3 text-[11px] tracking-widest text-gray-200 transition hover:bg-white hover:text-black"
+              rel="noopener noreferrer"
+              className="inline-block rounded-full border border-white/80 px-8 py-3 text-[11px] tracking-widest text-white transition-all duration-300 hover:bg-gold hover:border-gold hover:text-ink"
             >
               ENTRE EM CONTATO
             </a>
 
             {/* ÍCONE DE SCROLL */}
             <div className="mt-8 flex justify-center">
-              <Mouse className="h-6 w-6 text-white/80 animate-bounce" />
+              <Mouse className="h-6 w-6 text-white/70 animate-bounce" aria-hidden="true" />
             </div>
           </div>
         </div>
@@ -61,6 +63,7 @@ export default function Home() {
       <Videos />
       <Redes />
       <Feedback />
+      <Qrcode />
       <Footer />
     </main>
   );

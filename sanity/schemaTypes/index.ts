@@ -1,0 +1,8 @@
+import { sobreSchema } from './sobre'
+import { portfolioSchema } from './portfolio'
+import { videosSchema } from './videos'
+import { feedbackSchema } from './feedback' // <-- Adicionado
+
+export const schema = {
+  types: [sobreSchema, portfolioSchema, videosSchema, feedbackSchema], // <-- Adicionado
+}

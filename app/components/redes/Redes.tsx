@@ -12,7 +12,7 @@ const SocialButton = ({ href, icon, children, primary = false }: SocialButtonPro
   const baseStyles = "inline-flex items-center gap-3 rounded-full px-9 py-3.5 text-sm tracking-wide transition-all duration-300 hover:scale-105";
   
   const variants = primary 
-    ? "border border-[#c9a86a] text-[#c9a86a] hover:bg-[#c9a86a] hover:text-black" 
+    ? "border border-gold text-gold hover:bg-gold hover:text-black" 
     : "border border-gray-600 text-gray-300 hover:border-white hover:text-white";
 
   return (
@@ -25,11 +25,11 @@ const SocialButton = ({ href, icon, children, primary = false }: SocialButtonPro
 
 export default function Redes() {
   return (
-    <section className="bg-[#111111] px-6 py-24 md:py-32">
+    <section className="bg-charcoal px-6 py-24 md:py-32">
       <div className="mx-auto max-w-4xl text-center">
         
         <h2 className="mb-6 font-serif text-3xl text-white md:text-5xl">
-          Conheça Nosso Trabalho <span className="text-[#c9a86a]">de Perto</span>
+          Conheça Nosso Trabalho <span className="text-gold">de Perto</span>
         </h2>
         
         <p className="mx-auto mb-12 max-w-xl text-sm leading-relaxed text-gray-400 md:text-base">
@@ -39,7 +39,7 @@ export default function Redes() {
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <SocialButton 
-            href="https://wa.me/5591980486792?text=Olá!%20Gostaria%20de%20fazer%20um%20orçamento."
+            href="https://wa.me/5591980486792?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento."
             primary
             icon={
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
