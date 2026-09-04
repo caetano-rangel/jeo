@@ -24,6 +24,7 @@ export default function CardsClient({
   cards,
 }: CardsClientProps) {
   const [selectedCard, setSelectedCard] = useState<CardItem | null>(null);
+  const [activeMobileIndex, setActiveMobileIndex] = useState<number>(0);
 
   // Trava o scroll do fundo quando o modal estiver aberto
   useEffect(() => {
@@ -45,6 +46,17 @@ export default function CardsClient({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  // Transição automática das bolinhas a cada 3s no mobile
+  useEffect(() => {
+    if (!cards.length || selectedCard) return;
+
+    const interval = setInterval(() => {
+      setActiveMobileIndex((prev) => (prev + 1) % cards.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [cards.length, selectedCard]);
 
   return (
     <section className="relative bg-cream px-4 py-16 md:py-24 text-center overflow-hidden">
@@ -71,10 +83,12 @@ export default function CardsClient({
       </div>
 
       {/* CARROSSEL DE HIGHLIGHTS */}
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-start md:justify-center gap-6 overflow-x-auto pb-6 px-2 scrollbar-none">
+      {/* py-4 e px-3 adicionados para que a expansão da bolinha não seja cortada pelo overflow */}
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-start md:justify-center gap-6 overflow-x-auto py-4 px-3 scrollbar-none">
         {cards.map((card, idx) => {
           const imageUrl =
             card.image?.asset?.url || (card.image ? urlFor(card.image).url() : "");
+          const isActiveMobile = idx === activeMobileIndex;
 
           return (
             <button
@@ -84,7 +98,11 @@ export default function CardsClient({
               aria-label={`Ver projeto ${card.name}`}
             >
               {/* Container da Imagem Redonda Sem Borda */}
-              <div className="relative h-20 w-20 sm:h-24 sm:w-24 overflow-hidden rounded-full bg-gray-200 transition-transform duration-300 group-hover:scale-105 group-active:scale-95 shadow-sm">
+              <div
+                className={`relative h-24 w-24 sm:h-28 sm:w-28 overflow-hidden rounded-full bg-gray-200 transition-all duration-500 ease-in-out group-hover:scale-105 group-active:scale-95 shadow-sm ${
+                  isActiveMobile ? "scale-110 sm:scale-100 ring-2 ring-gold/50" : "scale-100"
+                }`}
+              >
                 {imageUrl && (
                   <Image
                     src={imageUrl}
@@ -96,7 +114,11 @@ export default function CardsClient({
               </div>
 
               {/* Nome do Projeto */}
-              <span className="mt-2 text-xs font-medium text-gray-800 max-w-[88px] truncate transition-colors duration-200 group-hover:text-gold">
+              <span
+                className={`mt-2 text-xs font-medium max-w-[96px] truncate transition-colors duration-200 group-hover:text-gold ${
+                  isActiveMobile ? "text-gold font-semibold" : "text-gray-800"
+                }`}
+              >
                 {card.name}
               </span>
             </button>

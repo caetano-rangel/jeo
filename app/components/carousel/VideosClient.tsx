@@ -110,7 +110,7 @@ function VideoModal({
         {/* Header */}
         <div className="mb-4 flex w-full items-center justify-between px-1">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.35em]" style={{ color: "#c9a86a" }}>
+            <p className="text-[10px] uppercase tracking-[0.35em]" style={{ color: "#6b6b6b" }}>
               0{index + 1} / 0{total}
             </p>
             <p className="font-serif text-lg text-white" style={{ fontFamily: "'Georgia', serif" }}>
@@ -183,7 +183,7 @@ function VideoModal({
                 className="h-full rounded-full"
                 style={{
                   width: `${progress}%`,
-                  background: "#c9a86a",
+                  background: "#6b6b6b",
                   boxShadow: "0 0 6px rgba(201,168,106,0.7)",
                   transition: "width 0.2s linear",
                 }}
@@ -271,7 +271,7 @@ function VideoModal({
               style={{
                 width: i === index ? "20px" : "5px",
                 height: "5px",
-                background: i === index ? "#c9a86a" : "rgba(255,255,255,0.2)",
+                background: i === index ? "#6b6b6b" : "rgba(255,255,255,0.2)",
               }}
             />
           ))}
@@ -359,7 +359,7 @@ function VideoCard({
           background: "rgba(255,255,255,0.07)",
           backdropFilter: "blur(8px)",
           border: `1px solid ${hovered ? "rgba(201,168,106,0.45)" : "rgba(255,255,255,0.1)"}`,
-          color: hovered ? "#c9a86a" : "rgba(255,255,255,0.5)",
+          color: hovered ? "#6b6b6b" : "rgba(255,255,255,0.5)",
         }}
       >
         {video.label}
@@ -392,7 +392,7 @@ function VideoCard({
         </p>
         <p
           className="mt-1 text-[10px] uppercase tracking-widest transition-all duration-300"
-          style={{ color: hovered ? "#c9a86a" : "rgba(255,255,255,0.35)" }}
+          style={{ color: hovered ? "#6b6b6b" : "rgba(255,255,255,0.35)" }}
         >
           {hovered ? "Clique para assistir" : "Social Media"}
         </p>
@@ -424,14 +424,14 @@ export default function VideosClient({
   return (
     <section
       className="relative px-6 py-24 text-center overflow-hidden"
-      style={{ background: "#f6f1e9" }}
+      style={{ background: "#ececec" }}
     >
       {/* HEADER */}
       <div className="mb-16">
         {tag && (
           <span
             className="mb-4 block text-[10px] tracking-[0.4em] uppercase font-medium"
-            style={{ color: "#c9a86a" }}
+            style={{ color: "#6b6b6b" }}
           >
             {tag}
           </span>
@@ -445,7 +445,7 @@ export default function VideosClient({
         {descricao && (
           <p
             className="mx-auto mt-4 max-w-md text-sm leading-relaxed"
-            style={{ color: "#8a7a6a" }}
+            style={{ color: "#757575" }}
           >
             {descricao}
           </p>
@@ -483,13 +483,13 @@ export default function VideosClient({
             key={i}
             onClick={() => openModal(i)}
             className="rounded-full transition-all duration-300"
-            style={{ width: "6px", height: "6px", background: "#c8bfb0" }}
+            style={{ width: "6px", height: "6px", background: "#b8b8b8" }}
             aria-label={`Abrir ${videos[i].label}`}
           />
         ))}
       </div>
 
-      <p className="mt-4 text-xs tracking-widest" style={{ color: "#b8a990" }}>
+      <p className="mt-4 text-xs tracking-widest" style={{ color: "#9a9a9a" }}>
         {String(videos.length).padStart(2, "0")} vídeos
       </p>
 

@@ -36,11 +36,11 @@ export default function Qrcode() {
   };
 
   return (
-    <section className="relative bg-[#f6f1e9] px-6 py-24 text-center border-t border-black/5 overflow-hidden">
+    <section className="relative bg-[#ececec] px-6 py-24 text-center border-t border-black/5 overflow-hidden">
       <div className="mx-auto max-w-4xl flex flex-col items-center">
         
         {/* HEADER ELEGANTE */}
-        <div className="mb-6 flex items-center justify-center gap-2.5 text-[10px] font-medium tracking-[0.4em] uppercase text-[#c9a86a]">
+        <div className="mb-6 flex items-center justify-center gap-2.5 text-[10px] font-medium tracking-[0.4em] uppercase text-[#6b6b6b]">
           <span>✦</span>
           <span>Acesso Instantâneo</span>
           <span>✦</span>
@@ -52,10 +52,10 @@ export default function Qrcode() {
 
 
         {/* CARTÃO BADGE HORIZONTAL / VERTICAL (ESTILO DIPLOMA / PASSAPORTE) */}
-        <div className="relative w-full max-w-md bg-white/60 backdrop-blur-md rounded-3xl p-8 border border-[#c9a86a]/30 shadow-2xl shadow-[#c9a86a]/10 flex flex-col items-center transition-all duration-500 hover:shadow-3xl hover:border-[#c9a86a]/50">
+        <div className="relative w-full max-w-md bg-white/60 backdrop-blur-md rounded-3xl p-8 border border-[#6b6b6b]/30 shadow-2xl shadow-[#6b6b6b]/10 flex flex-col items-center transition-all duration-500 hover:shadow-3xl hover:border-[#6b6b6b]/50">
           
           {/* Detalhe de Tag no Topo do Card */}
-          <div className="absolute -top-3 px-4 py-1 bg-[#1a1a1a] rounded-full text-[9px] uppercase tracking-[0.3em] text-[#c9a86a] font-medium">
+          <div className="absolute -top-3 px-4 py-1 bg-[#363636] rounded-full text-[9px] uppercase tracking-[0.3em] text-[#cfcfcf] font-medium">
             Portfólio Digital
           </div>
 
@@ -74,7 +74,7 @@ export default function Qrcode() {
 
           {/* TEXTO DE INSTRUÇÃO E LINK */}
           <div className="text-center mb-6">
-            <p className="text-xs uppercase tracking-widest text-[#c9a86a] font-semibold">
+            <p className="text-xs uppercase tracking-widest text-[#6b6b6b] font-semibold">
               Escanear com a câmera
             </p>
             <p className="mt-1 text-[11px] text-gray-400 font-mono">
@@ -86,7 +86,7 @@ export default function Qrcode() {
           <div className="flex items-center gap-3 w-full">
             <button
               onClick={handleDownload}
-              className="flex-1 py-3 rounded-xl bg-[#1a1a1a] text-white text-[11px] font-medium tracking-widest uppercase transition-all duration-300 hover:bg-[#c9a86a] flex items-center justify-center gap-2"
+              className="flex-1 py-3 rounded-xl bg-[#363636] text-white text-[11px] font-medium tracking-widest uppercase transition-all duration-300 hover:bg-[#6b6b6b] flex items-center justify-center gap-2"
             >
               <span>Baixar</span>
               <span className="text-xs">↓</span>
@@ -94,7 +94,7 @@ export default function Qrcode() {
 
             <button
               onClick={handleCopyLink}
-              className="flex-1 py-3 rounded-xl border border-black/10 bg-white/80 text-[#1a1a1a] text-[11px] font-medium tracking-widest uppercase transition-all duration-300 hover:border-[#c9a86a] hover:text-[#c9a86a]"
+              className="flex-1 py-3 rounded-xl border border-black/10 bg-white/80 text-[#1a1a1a] text-[11px] font-medium tracking-widest uppercase transition-all duration-300 hover:border-[#6b6b6b] hover:text-[#6b6b6b]"
             >
               {copied ? "Copiado! ✦" : "Copiar Link"}
             </button>

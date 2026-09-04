@@ -20,12 +20,12 @@ export default function FeedbackClient({
   feedbacks,
 }: FeedbackClientProps) {
   return (
-    <section className="bg-[#f6f1e9] px-6 py-28 md:py-36">
+    <section className="bg-[#ececec] px-6 py-28 md:py-36">
       
       {/* HEADER IDÊNTICO AO ESTILO DA FOTO */}
       <div className="mb-20 text-center">
         {tag && (
-          <div className="mb-4 flex items-center justify-center gap-2.5 text-[10px] font-medium tracking-[0.4em] uppercase text-[#c9a86a]">
+          <div className="mb-4 flex items-center justify-center gap-2.5 text-[10px] font-medium tracking-[0.4em] uppercase text-[#6b6b6b]">
             <span>{tag}</span>
           </div>
         )}
@@ -47,7 +47,7 @@ export default function FeedbackClient({
         {feedbacks.map((item, index) => (
           <div key={index} className="relative flex flex-col gap-6 w-full sm:max-w-md lg:max-w-sm">
             {/* Ícone de aspas/diamante decorativo no depoimento */}
-            <div className="text-2xl text-[#c9a86a]">&quot;</div>
+            <div className="text-2xl text-[#6b6b6b]">&quot;</div>
 
             {/* Texto do depoimento */}
             <p className="font-sans text-sm md:text-base leading-relaxed text-gray-700">
@@ -57,7 +57,7 @@ export default function FeedbackClient({
             {/* Identificação do Cliente */}
             <div className="mt-auto flex items-center gap-4">
               {/* Linha vertical (dourado) */}
-              <div className="h-10 w-[1.5px] bg-[#c9a86a]" />
+              <div className="h-10 w-[1.5px] bg-[#6b6b6b]" />
               
               <div className="flex flex-col">
                 <p className="text-sm font-semibold tracking-wide text-[#1a1a1a]">

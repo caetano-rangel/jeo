@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Play, Sparkles, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
 interface VideoItem {
   _key: string;
-  casal: string;
+  tituloProjeto?: string;
+  cliente?: string;
+  categoria?: string;
   videoUrl: string;
   thumb?: any;
 }
@@ -33,9 +35,11 @@ export default function Banana() {
         descricao,
         videosList[] {
           _key,
-          casal,
+          tituloProjeto,
+          cliente,
+          categoria,
           thumb,
-          "videoUrl": videoFile.asset->url
+          "videoUrl": coalesce(videoFile.asset->url, externalVideoUrl)
         }
       }`;
       const res = await client.fetch(query);
@@ -74,7 +78,7 @@ export default function Banana() {
 
   return (
     <section className="relative bg-[#0a0a0a] text-white px-4 py-24 overflow-hidden border-t border-white/10">
-      {/* BANNER DE FUNDO - diagonal, quase preto */}
+      {/* BANNER DE FUNDO */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <div
           className="absolute -inset-y-32 -inset-x-20 sm:-inset-x-32"
@@ -91,7 +95,6 @@ export default function Banana() {
           />
         </div>
 
-        {/* Escurece quase tudo, deixando só uma sugestão da imagem */}
         <div className="absolute inset-0 bg-[#0a0a0a]/90" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-transparent to-[#0a0a0a]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-transparent to-[#0a0a0a]" />
@@ -101,8 +104,8 @@ export default function Banana() {
         {/* HEADER */}
         <div className="mb-12">
           {data.tag && (
-            <span className="mb-3 inline-flex items-center gap-2 text-[10px] tracking-[0.4em] uppercase font-medium text-gold">
-              <Sparkles className="h-3 w-3" /> {data.tag}
+            <span className="mb-3 inline-block text-[10px] tracking-[0.4em] uppercase font-medium text-gold">
+              {data.tag}
             </span>
           )}
 
@@ -117,12 +120,6 @@ export default function Banana() {
               {data.descricao}
             </p>
           )}
-
-          <div className="mt-6 flex items-center justify-center gap-3">
-            <div className="h-px w-12 bg-white/20" />
-            <div className="h-1 w-1 rounded-full bg-gold" />
-            <div className="h-px w-12 bg-white/20" />
-          </div>
         </div>
 
         {/* CARROSSEL DE VÍDEOS */}
@@ -165,7 +162,7 @@ export default function Banana() {
                   {imageUrl ? (
                     <Image
                       src={imageUrl}
-                      alt={video.casal}
+                      alt={video.tituloProjeto || "Vídeo"}
                       fill
                       className="object-cover"
                     />
@@ -180,8 +177,10 @@ export default function Banana() {
                     )
                   )}
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
+                  {/* Gradiente escuro sutil no fundo */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
+                  {/* Ícone de Play central */}
                   {isCenter && (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-md transition-transform duration-300 hover:scale-110 hover:border-gold hover:bg-gold hover:text-black">
@@ -189,15 +188,6 @@ export default function Banana() {
                       </div>
                     </div>
                   )}
-
-                  <div className="absolute bottom-6 left-6 right-6 text-left">
-                    <p className="text-[10px] uppercase tracking-widest text-gold mb-1 font-medium">
-                      Filme de Casamento
-                    </p>
-                    <h3 className="font-serif text-xl sm:text-2xl text-white font-medium">
-                      {video.casal}
-                    </h3>
-                  </div>
                 </div>
               </div>
             );
@@ -246,12 +236,6 @@ export default function Banana() {
                 autoPlay
                 className="h-full w-full object-contain"
               />
-            </div>
-
-            <div className="p-4 bg-[#121212] text-left">
-              <h4 className="font-serif text-lg text-white">
-                {activeModalVideo.casal}
-              </h4>
             </div>
           </div>
         </div>
