@@ -23,23 +23,7 @@ export default function CardsClient({
   descricao,
   cards,
 }: CardsClientProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedCard, setSelectedCard] = useState<CardItem | null>(null);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-
-  // Alterna o card expandido automaticamente a cada 3s APENAS no mobile
-  useEffect(() => {
-    if (!cards || cards.length === 0 || selectedCard) return;
-
-    const timer = setInterval(() => {
-      // Verifica se a tela é mobile (largura menor que 768px)
-      if (window.innerWidth < 768) {
-        setActiveIndex((prevIndex) => (prevIndex + 1) % cards.length);
-      }
-    }, 3000);
-
-    return () => clearInterval(timer);
-  }, [cards, selectedCard]);
 
   // Trava o scroll do fundo quando o modal estiver aberto
   useEffect(() => {
@@ -63,9 +47,9 @@ export default function CardsClient({
   }, []);
 
   return (
-    <section className="relative bg-cream px-6 py-24 text-center overflow-hidden">
+    <section className="relative bg-cream px-4 py-16 md:py-24 text-center overflow-hidden">
       {/* HEADER */}
-      <div className="mb-16">
+      <div className="mb-12">
         {tag && (
           <span className="mb-4 block text-[10px] tracking-[0.4em] uppercase font-medium text-gold">
             {tag}
@@ -86,71 +70,36 @@ export default function CardsClient({
         </div>
       </div>
 
-      {/* CARROSSEL EXPANSÍVEL (ACCORDION HOVER NO DESKTOP / AUTO-CYCLE NO MOBILE) */}
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 md:flex-row md:gap-3 h-[500px]">
+      {/* CARROSSEL DE HIGHLIGHTS */}
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-start md:justify-center gap-6 overflow-x-auto pb-6 px-2 scrollbar-none">
         {cards.map((card, idx) => {
           const imageUrl =
             card.image?.asset?.url || (card.image ? urlFor(card.image).url() : "");
 
-          // No desktop considera o hover; no mobile considera o index automático ativo
-          const isExpanded =
-            hoveredIndex !== null ? hoveredIndex === idx : activeIndex === idx;
-
           return (
-            <div
+            <button
               key={idx}
-              role="button"
-              tabIndex={0}
-              aria-label={`Ver detalhes do projeto ${card.name}`}
-              onMouseEnter={() => setHoveredIndex(idx)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              onFocus={() => setHoveredIndex(idx)}
-              onBlur={() => setHoveredIndex(null)}
               onClick={() => setSelectedCard(card)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setSelectedCard(card);
-                }
-              }}
-              className="relative cursor-pointer overflow-hidden rounded-2xl transition-all duration-500 ease-in-out"
-              style={{
-                flex: isExpanded ? 3.5 : 1,
-              }}
+              className="group flex flex-col items-center flex-shrink-0 cursor-pointer focus:outline-none"
+              aria-label={`Ver projeto ${card.name}`}
             >
-              {imageUrl && (
-                <Image
-                  src={imageUrl}
-                  alt={card.name}
-                  fill
-                  className={`object-cover transition-all duration-700 ease-out ${
-                    isExpanded ? "grayscale-0 scale-105" : "grayscale scale-100"
-                  }`}
-                />
-              )}
-
-              {/* Overlay Escuro para Contraste */}
-              <div
-                className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300"
-                style={{ opacity: isExpanded ? 0.85 : 0.6 }}
-              />
-
-              {/* Informações no Card */}
-              <div className="absolute bottom-6 left-6 right-6 text-left transition-all duration-300">
-                <p className="font-serif text-lg text-white font-medium whitespace-nowrap">
-                  {card.name}
-                </p>
-                <p
-                  className={`mt-1 text-[10px] uppercase tracking-widest transition-all duration-300 ${
-                    isExpanded
-                      ? "opacity-100 translate-y-0 text-gold"
-                      : "opacity-0 translate-y-2 text-white/70"
-                  }`}
-                >
-                  Ver detalhes do projeto ✦
-                </p>
+              {/* Container da Imagem Redonda Sem Borda */}
+              <div className="relative h-20 w-20 sm:h-24 sm:w-24 overflow-hidden rounded-full bg-gray-200 transition-transform duration-300 group-hover:scale-105 group-active:scale-95 shadow-sm">
+                {imageUrl && (
+                  <Image
+                    src={imageUrl}
+                    alt={card.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                )}
               </div>
-            </div>
+
+              {/* Nome do Projeto */}
+              <span className="mt-2 text-xs font-medium text-gray-800 max-w-[88px] truncate transition-colors duration-200 group-hover:text-gold">
+                {card.name}
+              </span>
+            </button>
           );
         })}
       </div>

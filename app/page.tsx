@@ -8,6 +8,7 @@ import Redes from "./components/redes/Redes";
 import Feedback from "./components/feedback/Feedback";
 import Footer from "./components/footer/Footer";
 import Qrcode from "./components/qrcode/Qrcode";
+import Banana from "./components/banana/Banana"
 
 export default function Home() {
   return (
@@ -73,6 +74,7 @@ export default function Home() {
       {/* SEÇÕES */}
       <Sobre />
       <Cards />
+      <Banana />
       <Videos />
       <Redes />
       <Feedback />
