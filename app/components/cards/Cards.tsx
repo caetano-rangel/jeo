@@ -1,49 +1,57 @@
-import { client } from '@/sanity/lib/client'
-import CardsClient from './CardsClient'
-
-interface CardItem {
-  name: string
-  image: any
-  detalhes?: string
-}
+// Cards.tsx
+import { client } from "@/sanity/lib/client";
+import CardsClient, { CardItem } from "./CardsClient";
 
 interface PortfolioData {
-  tag?: string
-  titulo: string
-  descricao?: string
-  cards?: CardItem[]
+  tag?: string;
+  titulo: string;
+  descricao?: string;
+  cards: CardItem[];
 }
 
 async function getPortfolioData(): Promise<PortfolioData | null> {
-  const query = `*[_type == "portfolio"][0]{
-    tag,
-    titulo,
-    descricao,
-    cards[]{
-      name,
-      detalhes,
-      image{
-        asset->{
-          _id,
-          url
-        }
+  const freshClient = client.withConfig({ useCdn: false });
+
+  // 1. Busca TODOS os documentos do tipo "cardItem" publicados
+  const query = `*[_type == "cardItem" && !(_id in path("drafts.**"))]{
+    name,
+    "slug": slug.current,
+    detalhes,
+    image{
+      asset->{
+        _id,
+        url
       }
     }
-  }`
+  }`;
 
   try {
-    return await client.fetch(query, {}, { cache: 'no-store' })
+    const cards = await freshClient.fetch(
+      query,
+      {},
+      {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      }
+    );
+
+    return {
+      tag: "CREATIVE WORK",
+      titulo: "Portfólio",
+      descricao: "Clientes e empresas que já confiam no meu trabalho estratégico",
+      cards: cards || [],
+    };
   } catch (error) {
-    console.error('Erro ao buscar dados do Sanity:', error)
-    return null
+    console.error("Erro ao buscar dados do Sanity:", error);
+    return null;
   }
 }
 
 export default async function Cards() {
-  const data = await getPortfolioData()
+  const data = await getPortfolioData();
 
   if (!data || !data.cards || data.cards.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -53,5 +61,5 @@ export default async function Cards() {
       descricao={data.descricao}
       cards={data.cards}
     />
-  )
+  );
 }

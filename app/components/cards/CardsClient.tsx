@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 
 export interface CardItem {
   name: string;
+  slug?: string;
   image: any;
   detalhes?: string;
 }
@@ -23,40 +25,18 @@ export default function CardsClient({
   descricao,
   cards,
 }: CardsClientProps) {
-  const [selectedCard, setSelectedCard] = useState<CardItem | null>(null);
   const [activeMobileIndex, setActiveMobileIndex] = useState<number>(0);
 
-  // Trava o scroll do fundo quando o modal estiver aberto
+  // Animação/Destaque no mobile
   useEffect(() => {
-    if (selectedCard) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [selectedCard]);
-
-  // Fechar modal com a tecla ESC
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelectedCard(null);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  // Transição automática das bolinhas a cada 3s no mobile
-  useEffect(() => {
-    if (!cards.length || selectedCard) return;
+    if (!cards.length) return;
 
     const interval = setInterval(() => {
       setActiveMobileIndex((prev) => (prev + 1) % cards.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [cards.length, selectedCard]);
+  }, [cards.length]);
 
   return (
     <section className="relative bg-cream px-4 py-16 md:py-24 text-center overflow-hidden">
@@ -82,22 +62,28 @@ export default function CardsClient({
         </div>
       </div>
 
-      {/* CARROSSEL DE HIGHLIGHTS */}
-      {/* py-4 e px-3 adicionados para que a expansão da bolinha não seja cortada pelo overflow */}
+      {/* CARROSSEL DE BOLINHAS (CARDS) */}
       <div className="mx-auto flex w-full max-w-5xl items-center justify-start md:justify-center gap-6 overflow-x-auto py-4 px-3 scrollbar-none">
         {cards.map((card, idx) => {
           const imageUrl =
             card.image?.asset?.url || (card.image ? urlFor(card.image).url() : "");
           const isActiveMobile = idx === activeMobileIndex;
 
+          // Monta a rota dinâmica do Next.js baseada no slug
+          const route = card.slug
+            ? card.slug.startsWith("/")
+              ? card.slug
+              : `/${card.slug}`
+            : "#";
+
           return (
-            <button
+            <Link
               key={idx}
-              onClick={() => setSelectedCard(card)}
+              href={route}
               className="group flex flex-col items-center flex-shrink-0 cursor-pointer focus:outline-none"
-              aria-label={`Ver projeto ${card.name}`}
+              aria-label={`Ver página da empresa ${card.name}`}
             >
-              {/* Container da Imagem Redonda Sem Borda */}
+              {/* Container da Imagem Redonda (Bolinha) */}
               <div
                 className={`relative h-24 w-24 sm:h-28 sm:w-28 overflow-hidden rounded-full bg-gray-200 transition-all duration-500 ease-in-out group-hover:scale-105 group-active:scale-95 shadow-sm ${
                   isActiveMobile ? "scale-110 sm:scale-100 ring-2 ring-gold/50" : "scale-100"
@@ -121,67 +107,10 @@ export default function CardsClient({
               >
                 {card.name}
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>
-
-      {/* MODAL / TELA SOBREPOSTA */}
-      {selectedCard && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center px-4"
-          style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)" }}
-          onClick={() => setSelectedCard(null)}
-        >
-          <div
-            className="relative w-full max-w-lg rounded-2xl bg-[#121212] p-6 md:p-8 text-left shadow-2xl border border-white/10 animate-in fade-in zoom-in duration-200"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Botão Fechar */}
-            <button
-              onClick={() => setSelectedCard(null)}
-              aria-label="Fechar detalhes do projeto"
-              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
-            >
-              ✕
-            </button>
-
-            {/* Imagem em destaque dentro do modal */}
-            {selectedCard.image && (
-              <div className="relative mb-6 h-52 w-full overflow-hidden rounded-xl">
-                <Image
-                  src={
-                    selectedCard.image?.asset?.url ||
-                    urlFor(selectedCard.image).url()
-                  }
-                  alt={selectedCard.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-
-            {/* Nome da empresa */}
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold">
-              Projeto / Cliente
-            </span>
-            <h3 className="mt-1 font-serif text-2xl text-white">
-              {selectedCard.name}
-            </h3>
-
-            {/* Descrição do que foi trabalhado */}
-            <div className="mt-4 border-t border-white/10 pt-4">
-              <h4 className="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-2">
-                O que foi trabalhado:
-              </h4>
-              <p className="text-sm leading-relaxed text-gray-300 whitespace-pre-line">
-                {selectedCard.detalhes ||
-                  "Nenhum detalhe informado para este projeto."}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

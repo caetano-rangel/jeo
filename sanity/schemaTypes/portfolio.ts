@@ -1,63 +1,65 @@
-import { defineType, defineField } from 'sanity'
+import { defineType } from "sanity";
 
 export const portfolioSchema = defineType({
-  name: 'portfolio',
-  title: 'Seção Portfólio (Cards)',
-  type: 'document',
+  name: "cardItem",
+  title: "Cards (Empresas)",
+  type: "document",
   fields: [
-    defineField({
-      name: 'tag',
-      title: 'Tag Superior',
-      type: 'string',
-      initialValue: '✦ Portfólio & Clientes ✦',
-    }),
-    defineField({
-      name: 'titulo',
-      title: 'Título da Seção',
-      type: 'string',
-      validation: (rule) => rule.required(),
-      initialValue: 'Projetos de Destaque',
-    }),
-    defineField({
-      name: 'descricao',
-      title: 'Descrição',
-      type: 'text',
-      rows: 2,
-    }),
-    defineField({
-      name: 'cards',
-      title: 'Cards de Projetos',
-      type: 'array',
+    {
+      name: "name",
+      title: "Nome da Empresa",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "slug",
+      title: "Slug (URL da página)",
+      type: "slug",
+      options: {
+        source: "name",
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "image",
+      title: "Imagem de Capa (Bolinha)",
+      type: "image",
+      options: { hotspot: true },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "detalhes",
+      title: "Detalhes do Projeto",
+      type: "text",
+    },
+    {
+      name: "galeriaFotos",
+      title: "Galeria de Fotos",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+    },
+    {
+      name: "videos",
+      title: "Lista de Vídeos (Upload)",
+      type: "array",
       of: [
         {
-          type: 'object',
-          name: 'card',
-          title: 'Card',
+          type: "object",
+          name: "videoItem",
           fields: [
-            defineField({
-              name: 'name',
-              title: 'Nome do Cliente / Projeto',
-              type: 'string',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'image',
-              title: 'Imagem do Card',
-              type: 'image',
-              options: { hotspot: true },
-              validation: (rule) => rule.required(),
-            }),
-            // CAMPO ADICIONADO PARA O POPUP
-            defineField({
-              name: 'detalhes',
-              title: 'O que foi trabalhado (Detalhes)',
-              type: 'text',
-              rows: 4,
-              description: 'Descreva os serviços prestados, estratégias aplicadas, resultados, etc.',
-            }),
+            { name: "label", title: "Título do Vídeo", type: "string" },
+            {
+              name: "videoFile",
+              title: "Arquivo de Vídeo (Upload MP4/MOV)",
+              type: "file",
+              options: {
+                accept: "video/*",
+              },
+            },
           ],
         },
       ],
-    }),
+    },
   ],
-})
+});

@@ -159,7 +159,7 @@ function VideoModal({
             >
               <div
                 className="flex h-16 w-16 items-center justify-center rounded-full"
-                style={{ background: "rgba(201,168,106,0.92)", backdropFilter: "blur(4px)" }}
+                style={{ background: "rgba(255,255,255,0.25)", backdropFilter: "blur(4px)" }}
               >
                 <svg width="20" height="20" viewBox="0 0 14 14" fill="white">
                   <path d="M3 2l10 5-10 5V2z" />
@@ -183,8 +183,8 @@ function VideoModal({
                 className="h-full rounded-full"
                 style={{
                   width: `${progress}%`,
-                  background: "#6b6b6b",
-                  boxShadow: "0 0 6px rgba(201,168,106,0.7)",
+                  background: "#a1a1a1",
+                  boxShadow: "0 0 6px rgba(255,255,255,0.3)",
                   transition: "width 0.2s linear",
                 }}
               />
@@ -358,8 +358,8 @@ function VideoCard({
         style={{
           background: "rgba(255,255,255,0.07)",
           backdropFilter: "blur(8px)",
-          border: `1px solid ${hovered ? "rgba(201,168,106,0.45)" : "rgba(255,255,255,0.1)"}`,
-          color: hovered ? "#6b6b6b" : "rgba(255,255,255,0.5)",
+          border: `1px solid ${hovered ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)"}`,
+          color: hovered ? "#e5e5e5" : "rgba(255,255,255,0.5)",
         }}
       >
         {video.label}
@@ -370,7 +370,7 @@ function VideoCard({
         <div
           className="flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300"
           style={{
-            background: hovered ? "rgba(201,168,106,0.92)" : "rgba(255,255,255,0.1)",
+            background: hovered ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.1)",
             backdropFilter: "blur(6px)",
             border: "1px solid rgba(255,255,255,0.18)",
             transform: hovered ? "scale(1.12)" : "scale(1)",
@@ -392,7 +392,7 @@ function VideoCard({
         </p>
         <p
           className="mt-1 text-[10px] uppercase tracking-widest transition-all duration-300"
-          style={{ color: hovered ? "#6b6b6b" : "rgba(255,255,255,0.35)" }}
+          style={{ color: hovered ? "#b8b8b8" : "rgba(255,255,255,0.35)" }}
         >
           {hovered ? "Clique para assistir" : "Social Media"}
         </p>
