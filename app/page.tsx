@@ -29,12 +29,12 @@ export default function Home() {
 
         {/* BACKGROUND DESKTOP (Mantém o estilo do computador) */}
         <div
-          className="absolute inset-0 hidden md:block bg-no-repeat bg-cover bg-[left_center] bg-fixed"
+          className="absolute inset-0 hidden md:block bg-no-repeat bg-cover bg-position-[left_center] bg-fixed"
           style={{ backgroundImage: "url('/hero.jpg')" }}
         />
 
         {/* Overlay em gradiente */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/55 z-0" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/35 to-black/55 z-0" />
 
         {/* Content */}
         <div className="relative z-10 flex h-full items-center justify-center px-6">

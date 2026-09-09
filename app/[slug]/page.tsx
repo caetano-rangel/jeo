@@ -11,7 +11,8 @@ interface PageProps {
 }
 
 export default async function EmpresaPage({ params }: PageProps) {
-  const { slug } = await params;
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
 
   if (!slug) {
     notFound();
@@ -46,24 +47,47 @@ export default async function EmpresaPage({ params }: PageProps) {
     notFound();
   }
 
-  const logoUrl = empresa.image?.asset?.url || (empresa.image ? urlFor(empresa.image).url() : null);
+  // Resolução segura da imagem principal
+  let logoUrl = null;
+  try {
+    logoUrl = empresa.image?.asset?.url || (empresa.image?.asset ? urlFor(empresa.image).url() : null);
+  } catch {
+    logoUrl = null;
+  }
 
-  const videosFormatados: VideoItem[] = (empresa.videos || [])
-    .filter((v: any) => Boolean(v?.videoUrl))
-    .map((v: any) => ({
-      label: v.label || empresa.name || "Vídeo",
-      videoUrl: v.videoUrl,
-    }));
+  // Resolução segura dos vídeos
+  const videosFormatados: VideoItem[] = Array.isArray(empresa.videos)
+    ? empresa.videos
+        .filter((v: any) => Boolean(v?.videoUrl))
+        .map((v: any) => ({
+          label: v.label || empresa.name || "Vídeo",
+          videoUrl: v.videoUrl,
+        }))
+    : [];
 
-  const fotosFormatadas = (empresa.galeriaFotos || [])
-    .map((foto: any, index: number) => {
-      const url = foto?.asset?.url || (foto ? urlFor(foto).url() : null);
-      return {
-        url,
-        key: foto._key || String(index),
-      };
-    })
-    .filter((f: any) => Boolean(f.url));
+  // Resolução segura das fotos da galeria (evita erro com urlFor)
+  const fotosFormatadas = Array.isArray(empresa.galeriaFotos)
+    ? empresa.galeriaFotos
+        .map((foto: any, index: number) => {
+          if (!foto || (!foto.asset && !foto._ref)) return null;
+
+          let url = foto?.asset?.url || null;
+
+          if (!url) {
+            try {
+              url = urlFor(foto).url();
+            } catch {
+              url = null;
+            }
+          }
+
+          return {
+            url,
+            key: foto._key || String(index),
+          };
+        })
+        .filter((f: any): f is { url: string; key: string } => Boolean(f && f.url))
+    : [];
 
   return (
     <main className="min-h-screen bg-cream text-gray-900 px-4 sm:px-6 py-12 md:py-20">
@@ -83,7 +107,7 @@ export default async function EmpresaPage({ params }: PageProps) {
           <div className="relative h-28 w-28 sm:h-32 sm:w-32 mx-auto mb-6 rounded-full overflow-hidden bg-gray-200 border border-gray-300/80 shadow-sm">
             <Image
               src={logoUrl}
-              alt={empresa.name}
+              alt={empresa.name || "Logo da empresa"}
               fill
               className="object-cover"
             />
@@ -95,7 +119,7 @@ export default async function EmpresaPage({ params }: PageProps) {
         </span>
 
         <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-gray-900 tracking-tight mb-4">
-          {empresa.name}
+          {empresa.name || "Projeto"}
         </h1>
 
         <div className="flex items-center justify-center gap-3 my-8">
@@ -123,7 +147,6 @@ export default async function EmpresaPage({ params }: PageProps) {
             </h2>
           </div>
 
-          {/* Container com cor uniforme e sem esbranquiçado nas pontas */}
           <div className="bg-[#f0eee9] py-4 px-0 sm:px-6 rounded-2xl border border-gray-300/60 shadow-sm overflow-hidden 
             [&_section]:py-0 
             [&_video]:rounded-xl 
@@ -143,7 +166,6 @@ export default async function EmpresaPage({ params }: PageProps) {
               videos={videosFormatados}
             />
 
-            {/* Indicação "Arraste para o lado →" posicionado abaixo dos contadores de vídeo */}
             <div className="flex items-center justify-center gap-2 text-[10px] text-gray-400 uppercase tracking-widest mt-4">
               <span>Arraste para o lado</span>
               <span className="animate-pulse">→</span>
@@ -164,7 +186,7 @@ export default async function EmpresaPage({ params }: PageProps) {
             </h2>
           </div>
 
-          <GaleriaModal fotos={fotosFormatadas} nomeEmpresa={empresa.name} />
+          <GaleriaModal fotos={fotosFormatadas} nomeEmpresa={empresa.name || "Projeto"} />
         </section>
       )}
     </main>
