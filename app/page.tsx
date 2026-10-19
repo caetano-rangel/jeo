@@ -19,7 +19,7 @@ export default function Home() {
         {/* BACKGROUND MOBILE (Preenche 100% e alinha o foco no lado DIREITO da foto) */}
         <div className="absolute inset-0 block md:hidden">
           <Image
-            src="/hero.jpg"
+            src="/back.jpeg"
             alt="Hero Background"
             fill
             priority
@@ -30,7 +30,7 @@ export default function Home() {
         {/* BACKGROUND DESKTOP (Mantém o estilo do computador) */}
         <div
           className="absolute inset-0 hidden md:block bg-no-repeat bg-cover bg-position-[left_center] bg-fixed"
-          style={{ backgroundImage: "url('/hero.jpg')" }}
+          style={{ backgroundImage: "url('/back.jpeg')" }}
         />
 
         {/* Overlay em gradiente */}
@@ -39,19 +39,18 @@ export default function Home() {
         {/* Content */}
         <div className="relative z-10 flex h-full items-center justify-center px-6">
           <div className="max-w-xl text-center animate-fade-in-up">
-            <span className="mb-4 block text-[10px] tracking-[0.35em] uppercase text-gold">
+            <span className="mb-4 block text-[10px] tracking-[0.35em] uppercase text-gray-400">
               Fotografia & Vídeo
             </span>
 
             <h1 className="mb-6 font-serif text-4xl leading-tight text-gray-300 sm:text-5xl md:text-7xl">
-              Transformando
-              <br />
-              Momentos em Arte
+              Comunicação que traduz
+              
+              ideias em presença!
             </h1>
 
             <p className="mx-auto mb-8 max-w-md text-sm leading-relaxed text-gray-300">
-              Especializado em social media, marketing imobiliário, produções
-              audiovisuais e filmes de casamento.
+              Estratégia, conteúdo, audiovisual para marcas e projetos!
             </p>
 
             <a
