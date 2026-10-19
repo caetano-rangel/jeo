@@ -5,6 +5,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 export interface VideoItem {
   label: string;
   videoUrl: string;
+  aspectRatio?: "vertical" | "horizontal";
 }
 
 interface VideosClientProps {
@@ -39,6 +40,8 @@ function VideoModal({
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [muted, setMuted] = useState(false);
+
+  const isVertical = video.aspectRatio !== "horizontal";
 
   useEffect(() => {
     const v = videoRef.current;
@@ -98,13 +101,13 @@ function VideoModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ background: "rgba(0,0,0,0.93)", backdropFilter: "blur(14px)" }}
       onClick={onClose}
     >
       <div
         className="relative flex flex-col items-center"
-        style={{ maxWidth: "min(430px, 92vw)" }}
+        style={{ width: isVertical ? "min(430px, 92vw)" : "min(750px, 92vw)" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -130,10 +133,9 @@ function VideoModal({
 
         {/* Video */}
         <div
-          className="relative overflow-hidden"
+          className="relative overflow-hidden w-full"
           style={{
-            width: "min(430px, 92vw)",
-            height: "min(740px, 82vh)",
+            height: isVertical ? "min(740px, 80vh)" : "min(420px, 70vh)",
             borderRadius: "20px",
             background: "#0a0a0a",
           }}
@@ -294,6 +296,8 @@ function VideoCard({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [hovered, setHovered] = useState(false);
 
+  const isVertical = video.aspectRatio !== "horizontal";
+
   const handleMouseEnter = () => {
     setHovered(true);
     videoRef.current?.play().catch(() => {});
@@ -310,8 +314,8 @@ function VideoCard({
     <div
       className="relative snap-center flex-shrink-0 cursor-pointer"
       style={{
-        width: "clamp(230px, 80vw, 310px)",
-        height: "clamp(380px, 68vw, 500px)",
+        width: isVertical ? "clamp(230px, 80vw, 310px)" : "clamp(300px, 85vw, 420px)",
+        height: isVertical ? "clamp(380px, 68vw, 500px)" : "clamp(220px, 50vw, 260px)",
         borderRadius: "18px",
         overflow: "hidden",
         background: "#111",
@@ -462,7 +466,7 @@ export default function VideosClient({
         className="
           flex gap-5
           overflow-x-auto snap-x snap-mandatory pb-4
-          md:justify-center md:overflow-visible md:flex-wrap
+          md:justify-center md:overflow-visible md:flex-wrap items-center
         "
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >

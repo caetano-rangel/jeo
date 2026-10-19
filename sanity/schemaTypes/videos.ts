@@ -43,6 +43,20 @@ export const videosSchema = defineType({
               validation: (rule) => rule.required(),
             }),
             defineField({
+              name: 'aspectRatio',
+              title: 'Formato do Vídeo',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Vertical (Reels / Stories - 9:16)', value: 'vertical' },
+                  { title: 'Horizontal (Paisagem - 16:9)', value: 'horizontal' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'vertical',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
               name: 'videoFile',
               title: 'Arquivo de Vídeo (MP4)',
               type: 'file',
@@ -55,6 +69,7 @@ export const videosSchema = defineType({
           preview: {
             select: {
               title: 'label',
+              subtitle: 'aspectRatio',
             },
           },
         },
