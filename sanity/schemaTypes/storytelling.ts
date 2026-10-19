@@ -7,33 +7,32 @@ export const storytellingSchema = defineType({
   fields: [
     defineField({
       name: 'tag',
-      title: 'Tag Superior (Subtítulo Pequeno)',
+      title: 'Tag Superior',
       type: 'string',
       initialValue: 'Visual content & storytelling',
     }),
     defineField({
       name: 'titulo',
-      title: 'Título Principal',
+      title: 'Título da Seção',
       type: 'string',
       validation: (rule) => rule.required(),
       initialValue: 'Storymaker',
     }),
     defineField({
       name: 'descricao',
-      title: 'Descrição / Texto do Storytelling',
+      title: 'Descrição',
       type: 'text',
-      rows: 4,
+      rows: 3,
       initialValue:
         'Uma abordagem real time contemporânea do audiovisual, com direção estética, olhar apurado e narrativas alinhadas à identidade de cada ocasião.',
     }),
     defineField({
       name: 'videoFile',
-      title: 'Vídeo da Seção',
+      title: 'Arquivo de Vídeo (MP4)',
       type: 'file',
       options: {
-        accept: 'video/*',
+        accept: 'video/mp4,video/x-m4v,video/*',
       },
-      description: 'Envie um vídeo em formato MP4 ou WebM',
     }),
   ],
   preview: {
