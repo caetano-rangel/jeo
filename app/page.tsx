@@ -40,7 +40,7 @@ export default function Home() {
         <div className="relative z-10 flex h-full items-center justify-center px-6">
           <div className="max-w-xl text-center animate-fade-in-up">
             <span className="mb-4 block text-[10px] tracking-[0.35em] uppercase text-gray-400">
-              Fotografia & Vídeo
+              Imagem & Narrativa
             </span>
 
             <h1 className="mb-6 font-serif text-4xl leading-tight text-gray-300 sm:text-5xl md:text-7xl">
