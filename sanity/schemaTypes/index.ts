@@ -2,8 +2,16 @@ import { sobreSchema } from './sobre'
 import { portfolioSchema } from './portfolio'
 import { videosSchema } from './videos'
 import { feedbackSchema } from './feedback'
-import { bananaSchema }from "./banana";
+import { bananaSchema } from './banana'
+import { heroSchema } from './hero' // Importe o novo schema
 
 export const schema = {
-  types: [sobreSchema, portfolioSchema, videosSchema, feedbackSchema, bananaSchema], // <-- Adicionado
+  types: [
+    sobreSchema, 
+    portfolioSchema, 
+    videosSchema, 
+    feedbackSchema, 
+    bananaSchema,
+    heroSchema, // <-- Adicione aqui
+  ],
 }
